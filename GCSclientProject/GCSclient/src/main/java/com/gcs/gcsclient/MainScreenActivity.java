@@ -11,6 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import com.gcs.gcsclient.Network.NetworkAdapter;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class MainScreenActivity extends ActionBarActivity {
 
     @Override
@@ -23,6 +34,11 @@ public class MainScreenActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+        NetworkAdapter adapter = new NetworkAdapter();
+        List<NameValuePair> data = new ArrayList<NameValuePair>();
+        //data.add(new BasicNameValuePair("param1", "test-"));
+        //String res = adapter.SendPost("http://rumble.me/test.php", data);
+
     }
 
 
