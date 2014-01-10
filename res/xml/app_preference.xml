@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory 
+        android:selectable="true" 
+        android:title="Інтернет служба" 
+        android:key="net_service" 
+        android:summary="Параметри фонової інтернет служби">
+        
+        <CheckBoxPreference 
+            android:title="Запускати фонову службу" 
+            android:key="start_net_service"/>
+        
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Телефонія" android:key="telefony">
+		<CheckBoxPreference android:title="Перехоплювати вхідні дзвінки" android:key="recieve_incoming_calls"/>
+        <CheckBoxPreference android:title="Перехоплювати вихідні дзвінки" android:key="reieve_outcoming_calls"/>
+        <CheckBoxPreference android:title="Перехоплювати вхідні смс" android:key="recieve_incoming_sms"/>
+        <CheckBoxPreference android:title="Перехоплювати вихідні смс" android:key="recieve_outcoming_sms"/>  
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>
