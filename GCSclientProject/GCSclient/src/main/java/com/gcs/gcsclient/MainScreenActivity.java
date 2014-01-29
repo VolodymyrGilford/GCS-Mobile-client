@@ -34,10 +34,7 @@ public class MainScreenActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        NetworkAdapter adapter = new NetworkAdapter();
-        List<NameValuePair> data = new ArrayList<NameValuePair>();
-        //data.add(new BasicNameValuePair("param1", "test-"));
-        //String res = adapter.SendPost("http://rumble.me/test.php", data);
+
 
     }
 
@@ -56,8 +53,19 @@ public class MainScreenActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_settings:{
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        NetworkAdapter adapter = new NetworkAdapter();
+                        List<NameValuePair> data = new ArrayList<NameValuePair>();
+                        data.add(new BasicNameValuePair("param1", "test-"));
+                        adapter.Send("http://rumble.me/test.php", data);
+                    }
+                }).start();
+
                 return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -2,6 +2,8 @@ package com.gcs.gcsclient.Network;
 
 import android.support.v7.appcompat.R;
 import android.util.Log;
+
+import com.gcs.gcsclient.Const.NetworkConst;
 import com.google.gson.Gson;
 import org.apache.http.client.*;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -9,7 +11,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.*;
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicHttpResponse;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -21,23 +26,32 @@ public class NetworkAdapter {
 
     public NetworkAdapter(){
 
-    }
+     }
 
-    public String SendPost(String Url, List<NameValuePair> data) {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost(Url);
+     /**
+     * @param url - request url
+     * @param data - post data
+     * @return - server response
+     */
+    public String Send(String url, List<NameValuePair> data){
         try {
-            httppost.setEntity(new UrlEncodedFormEntity(data));
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            httppost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
 
-            HttpResponse response = httpclient.execute(httppost);
-            Gson g = new Gson();
-            Log.w("NetworkAdapter", g.toJson(response));
+            try{
+                HttpResponse response = httpclient.execute(httppost);
+                return EntityUtils.toString(response.getEntity());
+            }
+            catch (Exception e) {
+                Log.w("NetworkAdapter", e.getMessage());
+            }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            Log.w("NetworkAdapter", e.getMessage());
         }
 
-        return "";
+        return NetworkConst.PostRequestError;
     }
 
 
