@@ -11,23 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
-import com.gcs.gcsclient.Network.NetworkAdapter;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 public class MainScreenActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_screen);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -35,7 +24,11 @@ public class MainScreenActivity extends ActionBarActivity {
                     .commit();
         }
 
-
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -53,19 +46,8 @@ public class MainScreenActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.action_settings:{
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        NetworkAdapter adapter = new NetworkAdapter();
-                        List<NameValuePair> data = new ArrayList<NameValuePair>();
-                        data.add(new BasicNameValuePair("param1", "test-"));
-                        adapter.Send("http://rumble.me/test.php", data);
-                    }
-                }).start();
-
+            case R.id.action_settings:
                 return true;
-            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -81,7 +63,7 @@ public class MainScreenActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_main_screen, container, false);
             return rootView;
         }
     }
