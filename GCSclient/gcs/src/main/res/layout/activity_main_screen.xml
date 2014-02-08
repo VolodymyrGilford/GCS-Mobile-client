@@ -4,4 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainScreenActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame"
+    android:background="#3b0a08">
+
+    <EditText
+        android:layout_width="148dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/deviceKey"
+        android:layout_gravity="center"
+        android:background="#f9fffd" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Button"
+        android:id="@+id/sendKey"
+        android:layout_gravity="center_horizontal|bottom" />
+</FrameLayout>

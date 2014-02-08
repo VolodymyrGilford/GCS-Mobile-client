@@ -4,14 +4,22 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.globalcontrolsystem.gcs.Network.Configuration;
+import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
 import com.globalcontrolsystem.gcs.Services.GPStracker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainScreenActivity extends ActionBarActivity {
 
@@ -25,6 +33,32 @@ public class MainScreenActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        Button btn = (Button) findViewById(R.id.sendKey);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView tv = (TextView) findViewById(R.id.deviceKey);
+                final String key = tv.getText().toString();
+
+                final JSONObject jsonParam = new JSONObject();
+                try {
+
+                    jsonParam.put("webKey", key);
+
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String send = new NetworkAdapter().Send(Configuration.MakeAddDevice(), jsonParam);
+                        }
+                    }).start();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

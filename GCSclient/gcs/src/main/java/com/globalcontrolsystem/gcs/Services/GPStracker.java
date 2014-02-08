@@ -13,6 +13,8 @@ import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +32,7 @@ public class GPStracker{
         LocationListener locationListener = new GPSLocationListener();
         locationManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+
     }
 
     public static GPStracker GetInstance(Context context){
@@ -45,14 +48,32 @@ public class GPStracker{
 
         @Override
         public void onLocationChanged(Location loc) {
-            NetworkAdapter adapter = new NetworkAdapter();
+            final NetworkAdapter adapter = new NetworkAdapter();
 
-            List<NameValuePair> data = new ArrayList<NameValuePair>();
-            data.add(new BasicNameValuePair("lat", String.valueOf(loc.getLatitude())));
-            data.add(new BasicNameValuePair("lon", String.valueOf(loc.getLongitude())));
+            final List<NameValuePair> data = new ArrayList<NameValuePair>();
+            data.add(new BasicNameValuePair("lon", String.valueOf(loc.getLatitude())));
+            data.add(new BasicNameValuePair("lat", String.valueOf(loc.getLongitude())));
+            data.add(new BasicNameValuePair("type", "set"));
 
-            String send = adapter.Send(Configuration.MakeTestGeoUrl(), data);
-            Log.w("SendGPS", send);
+            final JSONObject jsonParam = new JSONObject();
+            try {
+                jsonParam.put("cid", String.valueOf(1));
+                jsonParam.put("deviceID", String.valueOf(1));
+                jsonParam.put("lon", String.valueOf(loc.getLatitude()).replace(",", "."));
+                jsonParam.put("lat", String.valueOf(loc.getLongitude()).replace(",", "."));
+
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String send = adapter.Send(Configuration.MakeTestGeoUrl(), jsonParam);
+                        Log.w("SendGPS", send);
+                    }
+                }).start();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
