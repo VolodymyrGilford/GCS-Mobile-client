@@ -24,6 +24,10 @@
             android:name="com.globalcontrolsystem.gcs.MainScreenActivity"
             android:label="@string/title_activity_main_screen" >
         </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:label="@string/title_activity_signup" >
+        </activity>
     </application>
 
 </manifest>

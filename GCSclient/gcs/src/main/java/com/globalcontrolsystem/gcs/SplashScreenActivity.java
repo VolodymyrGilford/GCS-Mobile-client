@@ -2,52 +2,45 @@ package com.globalcontrolsystem.gcs;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
-import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
+import com.globalcontrolsystem.gcs.Const.ApplicationConst;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 public class SplashScreenActivity extends Activity {
+
+    private SplashScreenActivity Instanse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
+        SharedPreferences settings = getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
+        final boolean IsRegistred = settings.getBoolean(ApplicationConst.PREF_IS_REGISTRED, false);
+
         //Delay 3 sec. before start main activity
         final SplashScreenActivity current = this;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(current, MainScreenActivity.class));
-            }
-        }, 3000);
+                if (IsRegistred)
+                    startActivity(new Intent(current, MainScreenActivity.class));
+                else
+                    startActivity(new Intent(current, SignupActivity.class));
 
+                Instanse.finish();
+            }
+        }, 2000);
+
+        Instanse = this;
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-
-
     }
 
 }

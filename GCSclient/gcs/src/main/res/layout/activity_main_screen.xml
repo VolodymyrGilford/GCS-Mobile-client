@@ -1,23 +1,32 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainScreenActivity"
     tools:ignore="MergeRootFrame"
-    android:background="#3b0a08">
-
-    <EditText
-        android:layout_width="148dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/deviceKey"
-        android:layout_gravity="center"
-        android:background="#f9fffd" />
+    android:background="#000000">
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/sendKey"
-        android:layout_gravity="center_horizontal|bottom" />
-</FrameLayout>
+        android:text="Send"
+        android:id="@+id/main_btn_send"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/main_edt_msg"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/main_edt_msg"
+        android:textColor="#000000"
+        android:background="#fff7fd"
+        android:layout_marginTop="153dp"
+        android:minHeight="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

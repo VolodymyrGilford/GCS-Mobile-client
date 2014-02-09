@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="splash_screen_text">GCS</string>
     <string name="title_activity_main_screen">GCS</string>
-
+    <string name="title_activity_signup">Signup</string>
+    <string name="signup_def_text">Enter code from dashboard.</string>
+    <string name="signup_btn_caption">Confirm</string>
 </resources>

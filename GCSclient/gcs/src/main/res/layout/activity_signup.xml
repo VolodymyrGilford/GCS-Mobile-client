@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.globalcontrolsystem.gcs.SignupActivity"
+    tools:ignore="MergeRootFrame"
+    android:background="#020202">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/signup_logo"
+        android:layout_gravity="right|top" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/signup_def_text"
+        android:id="@+id/signup_tv_caption"
+        android:layout_marginTop="28dp"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/imageView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signup_edt_webkey"
+        android:textColor="#000000"
+        android:longClickable="true"
+        android:background="#ffffff"
+        android:minWidth="120dp"
+        android:minHeight="30dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_btn_caption"
+        android:id="@+id/signup_btn_confirm"
+        android:singleLine="false"
+        android:background="#f4f6f6"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@+id/signup_edt_webkey"
+        android:layout_marginTop="53dp"
+        android:layout_alignLeft="@+id/signup_edt_webkey"
+        android:layout_alignStart="@+id/signup_edt_webkey"
+        android:layout_alignRight="@+id/signup_edt_webkey"
+        android:layout_alignEnd="@+id/signup_edt_webkey" />
+
+</RelativeLayout>

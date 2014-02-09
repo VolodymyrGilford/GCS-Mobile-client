@@ -22,7 +22,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-
+import com.google.gson.*;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.*;
@@ -88,5 +88,31 @@ public class NetworkAdapter {
 
         return NetworkConst.PostRequestError;
     }
+
+    public String Send(String url, JsonObject data){
+        try {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost(url);
+            httppost.setEntity(new StringEntity(data.toString()));
+
+            httppost.addHeader("Cookie", "token=0f842fa1-ad5e-4d00-b187-2eb8f92e5af9");
+            httppost.setHeader("Content-type", "application/json");
+
+            try{
+                HttpResponse response = httpclient.execute(httppost);
+                return EntityUtils.toString(response.getEntity());
+            }
+            catch (Exception e) {
+                Log.w("NetworkAdapter", e.getMessage());
+            }
+
+        } catch (IOException e) {
+            Log.w("NetworkAdapter", e.getMessage());
+        }
+
+        return NetworkConst.PostRequestError;
+    }
+
+
 
 }

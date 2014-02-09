@@ -1,13 +1,14 @@
 package com.globalcontrolsystem.gcs.Services;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.globalcontrolsystem.gcs.Const.ApplicationConst;
 import com.globalcontrolsystem.gcs.Network.Configuration;
 import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
 
@@ -50,23 +51,19 @@ public class GPStracker{
         public void onLocationChanged(Location loc) {
             final NetworkAdapter adapter = new NetworkAdapter();
 
-            final List<NameValuePair> data = new ArrayList<NameValuePair>();
-            data.add(new BasicNameValuePair("lon", String.valueOf(loc.getLatitude())));
-            data.add(new BasicNameValuePair("lat", String.valueOf(loc.getLongitude())));
-            data.add(new BasicNameValuePair("type", "set"));
-
             final JSONObject jsonParam = new JSONObject();
             try {
-                jsonParam.put("cid", String.valueOf(1));
-                jsonParam.put("deviceID", String.valueOf(1));
-                jsonParam.put("lon", String.valueOf(loc.getLatitude()).replace(",", "."));
-                jsonParam.put("lat", String.valueOf(loc.getLongitude()).replace(",", "."));
+                SharedPreferences settings = _context.getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
 
+                jsonParam.put("cid", String.valueOf(settings.getInt(ApplicationConst.PREF_CAMPAIGN_ID, 0)));
+                jsonParam.put("deviceID", String.valueOf(settings.getInt(ApplicationConst.PREF_DEVICE_ID, 0)));
+                jsonParam.put("lon", String.valueOf(loc.getLatitude()));
+                jsonParam.put("lat", String.valueOf(loc.getLongitude()));
 
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        String send = adapter.Send(Configuration.MakeTestGeoUrl(), jsonParam);
+                        String send = adapter.Send(Configuration.MakeSetGeoUrl(), jsonParam);
                         Log.w("SendGPS", send);
                     }
                 }).start();

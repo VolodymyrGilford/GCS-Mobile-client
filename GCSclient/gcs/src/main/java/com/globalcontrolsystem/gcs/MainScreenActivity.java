@@ -1,5 +1,6 @@
 package com.globalcontrolsystem.gcs;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.globalcontrolsystem.gcs.Const.ApplicationConst;
 import com.globalcontrolsystem.gcs.Network.Configuration;
 import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
 import com.globalcontrolsystem.gcs.Services.GPStracker;
+import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,33 +38,28 @@ public class MainScreenActivity extends ActionBarActivity {
                     .commit();
         }
 
-        Button btn = (Button) findViewById(R.id.sendKey);
+        GPStracker.GetInstance(getApplicationContext());
 
+        Button btn = (Button) findViewById(R.id.main_btn_send);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView tv = (TextView) findViewById(R.id.deviceKey);
-                final String key = tv.getText().toString();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SharedPreferences settings = getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
+                        String message = ((EditText) findViewById(R.id.main_edt_msg)).getText().toString();
 
-                final JSONObject jsonParam = new JSONObject();
-                try {
+                        JsonObject data = new JsonObject();
+                        data.addProperty("deviceID", settings.getInt(ApplicationConst.PREF_DEVICE_ID, 0));
+                        data.addProperty("text", message);
 
-                    jsonParam.put("webKey", key);
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String send = new NetworkAdapter().Send(Configuration.MakeAddDevice(), jsonParam);
-                        }
-                    }).start();
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                        String json = new NetworkAdapter().Send(Configuration.MakeSendMsgUrl(), data);
+                    }
+                }).start();
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,7 +76,6 @@ public class MainScreenActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:{
-                GPStracker.GetInstance(getApplicationContext());
                 return true;
             }
         }
