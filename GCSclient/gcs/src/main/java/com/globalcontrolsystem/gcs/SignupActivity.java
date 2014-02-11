@@ -76,7 +76,7 @@ public class SignupActivity extends ActionBarActivity {
                         SharedPreferences.Editor editor = settings.edit();
                         editor.putBoolean(ApplicationConst.PREF_IS_REGISTRED, true);
                         editor.putInt(ApplicationConst.PREF_DEVICE_ID, response.deviceID);
-                        editor.putInt(ApplicationConst.PREF_DEVICE_ID, response.cid);
+                        editor.putInt(ApplicationConst.PREF_CAMPAIGN_ID, response.cid);
                         editor.putString(ApplicationConst.PREF_DEVICE_KEY, response.deviceKey);
                         editor.commit();
 
