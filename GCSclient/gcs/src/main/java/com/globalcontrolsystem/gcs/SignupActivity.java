@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.globalcontrolsystem.gcs.Const.ApplicationConst;
+import com.globalcontrolsystem.gcs.Core.AccessController;
 import com.globalcontrolsystem.gcs.DTO.ResponseAddDevice;
 import com.globalcontrolsystem.gcs.DTO.Utils;
 import com.globalcontrolsystem.gcs.Network.Configuration;
@@ -64,25 +65,12 @@ public class SignupActivity extends ActionBarActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        JsonObject data = new JsonObject();
-                        data.addProperty("webKey", webKey);
-                        String json = new NetworkAdapter().Send(Configuration.MakeAddDeviceUrl(), data);
-
-                        json = Utils.ClearJson(json);
-
-                        ResponseAddDevice response = new Gson().fromJson(json, ResponseAddDevice.class);
-
-                        SharedPreferences settings = getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
-                        SharedPreferences.Editor editor = settings.edit();
-                        editor.putBoolean(ApplicationConst.PREF_IS_REGISTRED, true);
-                        editor.putInt(ApplicationConst.PREF_DEVICE_ID, response.deviceID);
-                        editor.putInt(ApplicationConst.PREF_CAMPAIGN_ID, response.cid);
-                        editor.putString(ApplicationConst.PREF_DEVICE_KEY, response.deviceKey);
-                        editor.commit();
+                        AccessController accessController = AccessController.GetInstanse(getApplicationContext());
+                        String deviceKey = accessController.Identificate(webKey);
 
                         Message handlerMessage = new Message();
                         Bundle bundle = new Bundle();
-                        bundle.putString("text", "Enter this key: " + response.deviceKey + " on Dashboard.");
+                        bundle.putString("text", "Enter this key: " + deviceKey + " on Dashboard.");
                         handlerMessage.setData(bundle);
                         signupHandler.sendMessage(handlerMessage);
                     }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.globalcontrolsystem.gcs.Const.ApplicationConst;
+import com.globalcontrolsystem.gcs.Core.AccessController;
 import com.globalcontrolsystem.gcs.Network.Configuration;
 import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
 
@@ -56,7 +57,7 @@ public class GPStracker{
                 SharedPreferences settings = _context.getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
 
                 jsonParam.put("cid", String.valueOf(settings.getInt(ApplicationConst.PREF_CAMPAIGN_ID, 0)));
-                jsonParam.put("deviceID", String.valueOf(settings.getInt(ApplicationConst.PREF_DEVICE_ID, 0)));
+                jsonParam.put("token", AccessController.GetInstanse(_context).GetToken());
                 jsonParam.put("lon", String.valueOf(loc.getLatitude()));
                 jsonParam.put("lat", String.valueOf(loc.getLongitude()));
 

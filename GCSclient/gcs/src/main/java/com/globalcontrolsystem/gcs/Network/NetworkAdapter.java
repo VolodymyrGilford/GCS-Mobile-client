@@ -22,6 +22,8 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
+
+import com.globalcontrolsystem.gcs.DTO.Utils;
 import com.google.gson.*;
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -36,71 +38,31 @@ public class NetworkAdapter {
 
      }
 
-     /**
-     * @param url - request url
-     * @param data - post data
-     * @return - server response
-     */
-    public String Send(String url, List<NameValuePair> data){
-        try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(url);
-            httppost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
-
-            httppost.addHeader("Cookie", "token=0f842fa1-ad5e-4d00-b187-2eb8f92e5af9");
-            httppost.setHeader("Content-type", "application/json");
-
-            try{
-                HttpResponse response = httpclient.execute(httppost);
-                return EntityUtils.toString(response.getEntity());
-            }
-            catch (Exception e) {
-                Log.w("NetworkAdapter", e.getMessage());
-            }
-
-        } catch (IOException e) {
-            Log.w("NetworkAdapter", e.getMessage());
-        }
-
-        return NetworkConst.PostRequestError;
-    }
-
+    /**
+    * @param url - request url
+    * @param data - post data
+    * @return - server response
+    */
     public String Send(String url, JSONObject data){
-        try {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(url);
-            httppost.setEntity(new StringEntity(data.toString()));
-
-            httppost.addHeader("Cookie", "token=0f842fa1-ad5e-4d00-b187-2eb8f92e5af9");
-            httppost.setHeader("Content-type", "application/json");
-
-            try{
-                HttpResponse response = httpclient.execute(httppost);
-                return EntityUtils.toString(response.getEntity());
-            }
-            catch (Exception e) {
-                Log.w("NetworkAdapter", e.getMessage());
-            }
-
-        } catch (IOException e) {
-            Log.w("NetworkAdapter", e.getMessage());
-        }
-
-        return NetworkConst.PostRequestError;
+        return  PostRequest(url, data.toString());
     }
 
     public String Send(String url, JsonObject data){
+        return PostRequest(url, data.toString());
+    }
+
+    private String PostRequest(String url, String data){
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httppost = new HttpPost(url);
-            httppost.setEntity(new StringEntity(data.toString()));
+            httppost.setEntity(new StringEntity(data));
 
-            httppost.addHeader("Cookie", "token=0f842fa1-ad5e-4d00-b187-2eb8f92e5af9");
             httppost.setHeader("Content-type", "application/json");
 
             try{
                 HttpResponse response = httpclient.execute(httppost);
-                return EntityUtils.toString(response.getEntity());
+                String json = Utils.ClearJson(EntityUtils.toString(response.getEntity()));
+                return json;
             }
             catch (Exception e) {
                 Log.w("NetworkAdapter", e.getMessage());
@@ -112,7 +74,5 @@ public class NetworkAdapter {
 
         return NetworkConst.PostRequestError;
     }
-
-
 
 }

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Waserdx on 09.02.14.
  */
-public class ResponseAddDevice {
+public class ResponseAddDevice extends Response{
 
     @SerializedName("deviceID")
     public int deviceID;
@@ -16,6 +16,8 @@ public class ResponseAddDevice {
     @SerializedName("cid")
     public int cid;
 
+    @SerializedName("token")
+    public String token;
 }
 
 

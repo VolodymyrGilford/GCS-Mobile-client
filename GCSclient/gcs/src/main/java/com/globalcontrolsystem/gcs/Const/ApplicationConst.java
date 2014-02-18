@@ -10,4 +10,5 @@ public class ApplicationConst
     public static final String PREF_DEVICE_ID = "DeviceID";
     public static final String PREF_DEVICE_KEY = "DeviceKey";
     public static final String PREF_CAMPAIGN_ID = "CampaignID";
+    public static final String PREF_ACCESS_TOKEN = "AccessToken";
 }

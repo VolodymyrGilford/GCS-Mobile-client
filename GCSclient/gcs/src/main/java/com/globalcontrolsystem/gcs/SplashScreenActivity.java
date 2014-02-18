@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Bundle;
 
 import com.globalcontrolsystem.gcs.Const.ApplicationConst;
+import com.globalcontrolsystem.gcs.Core.AccessController;
 
 
 public class SplashScreenActivity extends Activity {
@@ -20,6 +21,16 @@ public class SplashScreenActivity extends Activity {
 
         SharedPreferences settings = getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
         final boolean IsRegistred = settings.getBoolean(ApplicationConst.PREF_IS_REGISTRED, false);
+
+        final AccessController accessController = AccessController.GetInstanse(getApplicationContext());
+        if (IsRegistred && !accessController.isAuthenticated){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    accessController.Authenticate();
+                }
+            }).start();
+        }
 
         //Delay 3 sec. before start main activity
         final SplashScreenActivity current = this;

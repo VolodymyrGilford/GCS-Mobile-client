@@ -17,9 +17,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.globalcontrolsystem.gcs.Const.ApplicationConst;
+import com.globalcontrolsystem.gcs.Core.AccessController;
+import com.globalcontrolsystem.gcs.DTO.Response;
 import com.globalcontrolsystem.gcs.Network.Configuration;
 import com.globalcontrolsystem.gcs.Network.NetworkAdapter;
 import com.globalcontrolsystem.gcs.Services.GPStracker;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import org.json.JSONException;
@@ -50,11 +53,19 @@ public class MainScreenActivity extends ActionBarActivity {
                         SharedPreferences settings = getSharedPreferences(ApplicationConst.PREFS_NAME, 0);
                         String message = ((EditText) findViewById(R.id.main_edt_msg)).getText().toString();
 
+                        AccessController accessController = AccessController.GetInstanse(getApplicationContext());
+
                         JsonObject data = new JsonObject();
-                        data.addProperty("deviceID", settings.getInt(ApplicationConst.PREF_DEVICE_ID, 0));
+                        data.addProperty("token", accessController.GetToken());
                         data.addProperty("text", message);
 
                         String json = new NetworkAdapter().Send(Configuration.MakeSendMsgUrl(), data);
+
+                        Response response = new Gson().fromJson(json, Response.class);
+                        if (response.error != null){
+                            //Show message
+                        }
+
                     }
                 }).start();
             }
