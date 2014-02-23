@@ -22,4 +22,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:+'
     compile files('src/main/gson-2.2.4.jar')
     compile files('src/main/gson-2.2.4.jar')
+    compile files('src/main/gcm.jar')
+    compile files('src/main/gcm-src.jar')
 }
+
+
